@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .no-drag {
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+      }
+      #calendar {
+        text-align: center;
+      }
+      #calendar thead {
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+      }
+      #calendar td {
+        text-align: center;
+      }
+      #calendar tbody td {
+        width: 10px;
+        height: 10px;
+        padding: 5px;
+        font-size: 10px;
+        font-weight: 400;
+      }
+      #dateHead {
+        font-size: 10px;
+        font-weight: 700;
+        text-align: center;
+      }
+    </style>
+    <script type="text/javascript">
+      let today = new Date();
+      let final = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      if (today.getFullYear() % 4 == 0 && (today.getFullYear() % 100 != 0 || today.getFullYear() % 400 == 0)) {
+        final = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      }
+      function prev() {
+        today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        makeArray();
+      }
+      function next() {
+        today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+        makeArray();
+      }
+      function makeArray() {
+        let first = new Date(today.getFullYear(), today.getMonth(), 1);
+        let day = 1;
+        let cal = new Array(6);
+        cal.fill(" ");
+        let j = first.getDay();
+        for (let i = 0; i < 6; i++) {
+          cal[i] = new Array(7);
+          cal[i].fill(" ");
+          for (j; j < 7; j++) {
+            cal[i][j] = day++;
+            if (day > final[today.getMonth()] + 1) cal[i][j] = " ";
+          }
+          j = 0;
+        }
+        arrayToTable(cal);
+      }
+      function arrayToTable(arr) {
+        document.getElementById("monthTable").innerHTML =
+          "<span>" +
+          today.getFullYear() +
+          "</span> " +
+          "<span style='font-weight:800; color:[##_var_point-color_##]'>" +
+          (today.getMonth() < 9 ? "0" + (((today.getMonth() - 1) % 12) + 2) : ((today.getMonth() - 1) % 12) + 2) +
+          "</span> ";
+        let calendar = document.getElementById("calendar").getElementsByTagName("tbody")[0];
+        if (calendar.rows.length > 2)
+          for (let i = 0; i < 6; i++) {
+            calendar.deleteRow(-1);
+          }
+        for (let i = 0; i < 6; i++) {
+          let row = calendar.insertRow();
+          for (let j = 0; j < 7; j++) {
+            cell = row.insertCell();
+            if (arr[i][j] != undefined) {
+              if (today.getMonth() == new Date().getMonth() && today.getFullYear() == new Date().getFullYear() && arr[i][j] == today.getDate()) {
+                cell.innerHTML = '<span style="color:[##_var_point-color_##]; font-weight:700;">' + arr[i][j] + "</span>";
+              } else {
+                cell.innerHTML = arr[i][j];
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <widget class="no-drag">
+      <table id="calendar">
+        <thead>
+          <tr>
+            <td><label onclick="prev()" style="color: #ccc;"><</label></td>
+            <td colspan="5" id="monthTable"></td>
+            <td><label onclick="next()" style="color: #ccc;">></label></td>
+          </tr>
+          <tr id="dateHead">
+            <td>S</td>
+            <td>M</td>
+            <td>T</td>
+            <td>W</td>
+            <td>T</td>
+            <td>F</td>
+            <td>S</td>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <script>
+        makeArray();
+      </script>
+    </widget>
+  </body>
+</html>
