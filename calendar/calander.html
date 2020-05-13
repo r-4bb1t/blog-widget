@@ -16,7 +16,7 @@
         text-align: center;
       }
       #calendar thead {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 700;
         text-align: center;
       }
@@ -27,11 +27,11 @@
         width: 10px;
         height: 10px;
         padding: 5px;
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 400;
       }
       #dateHead {
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 700;
         text-align: center;
       }
@@ -100,7 +100,7 @@
     <widget class="no-drag">
       <table id="calendar">
         <thead>
-          <tr>
+          <tr height="35px">
             <td><label onclick="prev()" style="color: #ccc;"><</label></td>
             <td colspan="5" id="monthTable"></td>
             <td><label onclick="next()" style="color: #ccc;">></label></td>
@@ -121,5 +121,6 @@
         makeArray();
       </script>
     </widget>
+    <br /><br />
   </body>
 </html>
